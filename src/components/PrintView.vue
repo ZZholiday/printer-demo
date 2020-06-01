@@ -31,19 +31,16 @@ export default {
     setBodyHtml() {
       const iframe = window.frames[0];
       iframe.document.head.innerHTML = window.document.head.innerHTML;
-      console.log(iframe);
+      
+      for(let i = 0; iframe.document.body.childNodes.length;i++){
+        iframe.document.body.removeChild(iframe.document.body.childNodes[0]);
+      }
       for(let i = 0; i<this.num;i++){
         let tempNode = document.createElement('div');
         tempNode.innerHTML = this.html;
         tempNode.setAttribute("style","page-break-after:always;");
         iframe.document.body.appendChild(tempNode);
       }
-      // const document = window.document;
-      // const iframe = window.frames[0];
-      // iframe.document.head.innerHTML = document.head.innerHTML; // 获取当前文档的头部给iframe
-      // iframe.document.body.innerHTML = this.html; // 把传过来的html给iframe头部
-      // 图片和样式加载完成
-      // iframe.window.print();
       // eslint-disable-next-line no-unused-vars
       Promise.all([this.loadStyle(), this.loadImage()]).then(res => {
         //   打印
