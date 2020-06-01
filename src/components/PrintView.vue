@@ -1,6 +1,9 @@
 <template>
   <div class="print">
-    <button @click="print">打印</button>
+    <span>
+      <button @click="print">打印</button><input type="number" v-model="num"/>份
+    </span>
+    
     <iframe id="iframe" style="display: none;"></iframe>
   </div>
 </template>
@@ -14,6 +17,11 @@ export default {
       default: ""
     }
   },
+  data(){
+    return {
+      num:1
+    }
+  },
   methods: {
     print() {
       if (this.html) {
@@ -21,10 +29,19 @@ export default {
       }
     },
     setBodyHtml() {
-      const document = window.document;
       const iframe = window.frames[0];
-      iframe.document.head.innerHTML = document.head.innerHTML; // 获取当前文档的头部给iframe
-      iframe.document.body.innerHTML = this.html; // 把传过来的html给iframe头部
+      iframe.document.head.innerHTML = window.document.head.innerHTML;
+      console.log(iframe);
+      for(let i = 0; i<this.num;i++){
+        let tempNode = document.createElement('div');
+        tempNode.innerHTML = this.html;
+        tempNode.setAttribute("style","page-break-after:always;");
+        iframe.document.body.appendChild(tempNode);
+      }
+      // const document = window.document;
+      // const iframe = window.frames[0];
+      // iframe.document.head.innerHTML = document.head.innerHTML; // 获取当前文档的头部给iframe
+      // iframe.document.body.innerHTML = this.html; // 把传过来的html给iframe头部
       // 图片和样式加载完成
       // iframe.window.print();
       // eslint-disable-next-line no-unused-vars
