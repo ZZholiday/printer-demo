@@ -1,9 +1,10 @@
 <template>
   <div class="print">
     <span>
-      <button @click="print">打印</button><input type="number" v-model="num"/>份
+      <button @click="print">打印</button>
+      <input type="number" v-model="num" />份
     </span>
-    
+
     <iframe id="iframe" style="display: none;"></iframe>
   </div>
 </template>
@@ -17,10 +18,10 @@ export default {
       default: ""
     }
   },
-  data(){
+  data() {
     return {
-      num:1
-    }
+      num: 1
+    };
   },
   methods: {
     print() {
@@ -31,14 +32,15 @@ export default {
     setBodyHtml() {
       const iframe = window.frames[0];
       iframe.document.head.innerHTML = window.document.head.innerHTML;
-      
-      for(let i = 0; iframe.document.body.childNodes.length;i++){
-        iframe.document.body.removeChild(iframe.document.body.childNodes[0]);
+
+      while (iframe.document.body.hasChildNodes()) {
+        //当div下还存在子节点时 循环继续
+        iframe.document.body.removeChild(iframe.document.body.firstChild);
       }
-      for(let i = 0; i<this.num;i++){
-        let tempNode = document.createElement('div');
+      for (let i = 0; i < this.num; i++) {
+        let tempNode = document.createElement("div");
         tempNode.innerHTML = this.html;
-        tempNode.setAttribute("style","page-break-after:always;");
+        tempNode.setAttribute("style", "page-break-after:always;");
         iframe.document.body.appendChild(tempNode);
       }
       // eslint-disable-next-line no-unused-vars
