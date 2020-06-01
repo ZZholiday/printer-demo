@@ -19,7 +19,7 @@ export default {
     },
     prefixWidth: {
       type: Number,
-      default: 70
+      default: 50
     },
     type: {
       type: Number,
